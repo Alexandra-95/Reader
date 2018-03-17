@@ -24,47 +24,48 @@ public class JDBSSave {
         this.tableName = tableName;
     }
 
-    public void createTable() {
-        String[] nameColumns = lines.get(0);
+    public void queryRunner() {
         startConnection();
         Statement stmt;
         try {
             stmt = conn.createStatement();
-            StringBuilder sql = new StringBuilder("CREATE TABLE " + tableName + " (");
-            for (int i = 0; i < nameColumns.length; i++) {
-                sql.append(i == nameColumns.length - 1 ?
-                        nameColumns[i] + " text);" :
-                        nameColumns[i] + " text, ");
-            }
-            stmt.executeUpdate(sql.toString());
+            String sql = null; // сюда запихивать полученные строки для каждого действия
+            stmt.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         closeConnection();
     }
 
-    public void save() {
-        startConnection();
-        Statement stmt;
-        try {
-            stmt = conn.createStatement();
-            int count = 1;
-            lines.remove(0);
-            for (String[] line : lines) {
-                StringBuilder sql = new StringBuilder("INSERT INTO ");
-                sql.append(tableName).append(" VALUES (");
-                for (int i = 0; i < line.length; i++) {
-                    sql.append(i == line.length - 1 ?
-                            "'" + line[i] + "'" + ");" :
-                            "'" + line[i] + "'" + ", ");
-                }
-                stmt.executeUpdate(sql.toString());
-                System.out.println(count++);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public String dropTable() {
+        return "DROP TABLE " + tableName;
+    }
+
+    public String createTable() {
+        String[] nameColumns = lines.get(0);
+        StringBuilder sql = new StringBuilder("CREATE TABLE " + tableName + " (");
+        for (int i = 0; i < nameColumns.length; i++) {
+            sql.append(i == nameColumns.length - 1 ?
+                    nameColumns[i] + " text);" :
+                    nameColumns[i] + " text, ");
         }
-        closeConnection();
+        return sql.toString();
+    }
+
+    public String save() {
+        StringBuilder result = new StringBuilder();
+        lines.remove(0);
+        for (String[] line : lines) {
+            StringBuilder sql = new StringBuilder("INSERT INTO ");
+            sql.append(tableName).append(" VALUES (");
+            for (int i = 0; i < line.length; i++) {
+                sql.append(i == line.length - 1 ?
+                        "'" + line[i] + "'" + "); /n" :
+                        "'" + line[i] + "'" + ", ");
+            }
+            result.append(sql);
+        }
+        return result.toString();
     }
 
     private void startConnection() {
