@@ -9,7 +9,7 @@
         <module name="Reader" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
       <module name="Reader" target="1.8" />
     </bytecodeTargetLevel>
   </component>
