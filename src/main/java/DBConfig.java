@@ -12,11 +12,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.JDBCConfig;
 
 public class DBConfig {
 
   private static final Stage stage = new Stage();
-  private static final JDBCController jdbsController = new JDBCController();
+  public static final JDBCController jdbsController = new JDBCController();
+  public static final JDBCConfig jdbcConfig = new JDBCConfig();
   @FXML
   private TextField userName = new TextField();
 
@@ -37,7 +39,11 @@ public class DBConfig {
 
   @FXML
   public void testConnection() {
-    if (jdbsController.tryToConnect(dbEntity)) {
+    jdbcConfig.setUserName(userName.getText());
+    jdbcConfig.setUrl(urlDB.getText());
+    jdbcConfig.setPassword(password.getText());
+    jdbcConfig.setDriver((String) chooseDMS.getValue());
+    if (jdbsController.tryToConnect(jdbcConfig)) {
       resultConnection.setText("Соединение установлено.");
       resultConnection.setTextFill(Color.GREEN);
     } else {
@@ -48,10 +54,13 @@ public class DBConfig {
 
   @FXML
   public void okDBConfig() {
-    jdbsController.setJDBCConfig((String) chooseDMS.getValue(), urlDB.getText(), userName.getText(),
-        password.getText());
+    jdbcConfig.setUserName(userName.getText());
+    jdbcConfig.setUrl(urlDB.getText());
+    jdbcConfig.setPassword(password.getText());
+    jdbcConfig.setDriver((String) chooseDMS.getValue());
     Stage stage = (Stage) cancelConfig.getScene()
                                       .getWindow();
+    jdbsController.setJDBCConfig(jdbcConfig);
     stage.close();
     MainWindow.mainWindow.getWindow();
   }
@@ -75,17 +84,17 @@ public class DBConfig {
 
   @FXML
   public void initialize() {
-    if (dbEntity.getUserName() != null) {
-      userName.setText(dbEntity.getUserName());
+    if (jdbcConfig.getUserName() != null) {
+      userName.setText(jdbcConfig.getUserName());
     }
-    if (dbEntity.getPassword() != null) {
-      password.setText(dbEntity.getPassword());
+    if (jdbcConfig.getPassword() != null) {
+      password.setText(jdbcConfig.getPassword());
     }
-    if (dbEntity.getUrlDB() != null) {
-      urlDB.setText(dbEntity.getUrlDB());
+    if (jdbcConfig.getUrl() != null) {
+      urlDB.setText(jdbcConfig.getUrl());
     }
-    if (dbEntity.getChooseDMS() != null) {
-      chooseDMS.setValue(dbEntity.getChooseDMS());
+    if (jdbcConfig.getDriver() != null) {
+      chooseDMS.setValue(jdbcConfig.getDriver());
     }
   }
 

@@ -29,6 +29,10 @@ public class JDBCService {
     this.tableName = tableName;
   }
 
+  public JDBCConfig getJdbcConfig(){
+    return jdbcConfig;
+  }
+
   private void queryRunner(String sql) {
     Statement stmt;
     try {

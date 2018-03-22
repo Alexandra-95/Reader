@@ -1,6 +1,4 @@
 import controller.CSVController;
-import controller.JDBCController;
-import example_dto.DBcontroller;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -99,7 +97,7 @@ public class MainWindow extends javafx.application.Application implements Initia
   @FXML
   private void startConvertation() {
     readFile();
-    if (!DBcontroller.tryToConnect(DBConfig.dbEntity)) {
+    if (!DBConfig.jdbsController.tryToConnect(DBConfig.jdbsController.getJdbcConfig())) {
       configurationStatus.setText("Соединение не установлено.");
       configurationStatus.setTextFill(Color.RED);
     } else {
