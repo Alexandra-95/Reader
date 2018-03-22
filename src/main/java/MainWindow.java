@@ -85,13 +85,32 @@ public class MainWindow extends javafx.application.Application implements Initia
 
   @FXML
   private void readFile() {
-    if (!csvController.getError()
+    if (chooseFileArea.getText()
                       .equals("")) {
-      readFileStatus.setText(csvController.getError());
-      readFileStatus.setTextFill(Color.RED);
+      csvStatus.setText("Не задан файл.");
+      csvStatus.setTextFill(Color.RED);
     } else {
-      readFileStatus.setText("");
+      csvStatus.setText("");
+      if (lineSeparator.getValue() == null) {
+        separatorStatus.setText("Разделители не заданы.");
+        separatorStatus.setTextFill(Color.RED);
+      } else {
+        separatorStatus.setText("");
+        readFileStatus.setText("In progress...");
+        readFileStatus.setTextFill(Color.GREEN);
+        csvController.setCSVConfig(chooseFileArea.getText(), (String) lineSeparator.getValue());
+        csvController.read();
+        if (!csvController.getError()
+                          .equals("")) {
+          readFileStatus.setText(csvController.getError());
+          readFileStatus.setTextFill(Color.RED);
+        } else {
+          readFileStatus.setText("Файл успешно считан");
+          readFileStatus.setTextFill(Color.GREEN);
+        }
+      }
     }
+
   }
 
   @FXML

@@ -18,7 +18,7 @@ public class DBConfig {
 
   private static final Stage stage = new Stage();
   public static final JDBCController jdbsController = new JDBCController();
-  public static final JDBCConfig jdbcConfig = new JDBCConfig();
+  public static JDBCConfig jdbcConfig;
   @FXML
   private TextField userName = new TextField();
 
@@ -74,6 +74,7 @@ public class DBConfig {
   }
 
   public void getWindow() {
+    DBConfig.jdbcConfig = jdbsController.getJdbcConfig();
     try {
       initWindow();
       stage.show();

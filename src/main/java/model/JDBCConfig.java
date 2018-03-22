@@ -5,7 +5,6 @@ public class JDBCConfig {
   private String url;
   private String userName;
   private String password;
-  private String tableName;
 
   public String getDriver() {
     return driver;
@@ -39,11 +38,4 @@ public class JDBCConfig {
     this.password = password;
   }
 
-  public String getTableName() {
-    return tableName;
-  }
-
-  public void setTableName(String tableName) {
-    this.tableName = tableName;
-  }
 }
