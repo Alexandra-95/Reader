@@ -19,7 +19,7 @@ public class CSVController {
     csvService.read();
   }
 
-  public static List<String[]> getLines(){
+  public static List<String[]> getLines() {
     return CSVService.getLines();
   }
 

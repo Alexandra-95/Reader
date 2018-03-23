@@ -2,6 +2,7 @@ package view;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -13,6 +14,7 @@ public class JDBCService {
   private List<String[]> lines;
   private String tableName;
   private Connection conn = null;
+  private boolean tableToRewrite;
 
   public void setJDBCConfig(String driver, String url, String userName, String password) {
     jdbcConfig.setUserName(userName);
@@ -29,7 +31,7 @@ public class JDBCService {
     this.tableName = tableName;
   }
 
-  public JDBCConfig getJdbcConfig(){
+  public JDBCConfig getJdbcConfig() {
     return jdbcConfig;
   }
 
@@ -64,7 +66,6 @@ public class JDBCService {
 
   public void save() {
     startConnection();
-    StringBuilder result = new StringBuilder();
     lines.remove(0);
     for (String[] line : lines) {
       StringBuilder sql = new StringBuilder("INSERT INTO ");
@@ -72,7 +73,7 @@ public class JDBCService {
          .append(" VALUES (");
       for (int i = 0; i < line.length; i++) {
         sql.append(i == line.length - 1 ?
-            "'" + line[i] + "'" + "); /n" :
+            "'" + line[i] + "'" + ");" :
             "'" + line[i] + "'" + ", ");
       }
       queryRunner(sql.toString());
@@ -80,9 +81,17 @@ public class JDBCService {
     closeConnection();
   }
 
+  private String convertNameDBTODriver(String name) {
+    if (name.equals("PostgreSQL")) {
+      return "org.postgresql.Driver";
+    } else {
+      return null;
+    }
+  }
+
   private void startConnection() {
     try {
-      Class.forName(jdbcConfig.getDriver());
+      Class.forName(convertNameDBTODriver(jdbcConfig.getDriver()));
       conn = DriverManager.getConnection(jdbcConfig.getUrl(), jdbcConfig.getUserName(),
           jdbcConfig.getPassword());
     } catch (SQLException | ClassNotFoundException e) {
@@ -95,6 +104,55 @@ public class JDBCService {
       conn.close();
     } catch (SQLException e) {
       e.printStackTrace();
+    }
+  }
+
+  public void setTableToRewrite(boolean tableToRewrite) {
+    this.tableToRewrite = tableToRewrite;
+  }
+
+  public void createNewTable(){
+    createTable();
+    //save();
+  }
+
+  public void insertData() {
+    if (tableToRewrite) {
+      dropTable();
+      createTable();
+      //save();
+    } else {
+      //save();
+    }
+  }
+
+  public boolean tryToConnect(JDBCConfig jdbcConfig) {
+    try {
+      Class.forName(convertNameDBTODriver(jdbcConfig.getDriver()));
+    } catch (ClassNotFoundException e) {
+      //e.printStackTrace();
+    }
+    Connection connection = null;
+    try {
+      connection = DriverManager.getConnection(
+          jdbcConfig.getUrl(), jdbcConfig.getUserName(),
+          jdbcConfig.getPassword());
+    } catch (SQLException e) {
+      //e.printStackTrace();
+    }
+    return connection != null;
+  }
+
+  public boolean checkIfExistTable() {
+    startConnection();
+    Statement stmt;
+    boolean result;
+    try {
+      stmt = conn.createStatement();
+      ResultSet resultSet = stmt.executeQuery("SELECT count(*) FROM " + tableName);
+      return true;
+    } catch (SQLException e) {
+      return false;
     }
   }
 }

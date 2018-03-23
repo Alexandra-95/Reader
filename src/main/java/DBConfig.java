@@ -18,7 +18,7 @@ public class DBConfig {
 
   private static final Stage stage = new Stage();
   public static final JDBCController jdbsController = new JDBCController();
-  public static JDBCConfig jdbcConfig;
+  private static JDBCConfig jdbcConfig;
   @FXML
   private TextField userName = new TextField();
 

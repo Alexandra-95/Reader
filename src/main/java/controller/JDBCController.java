@@ -8,6 +8,10 @@ public class JDBCController {
 
   private static final JDBCService jdbcService = new JDBCService();
 
+  public void setTableToRewrite(boolean what){
+    jdbcService.setTableToRewrite(what);
+  }
+
   public void setJDBCConfig(JDBCConfig jdbcConfig) {
     jdbcService.setJDBCConfig(jdbcConfig
         .getDriver(), jdbcConfig.getUrl(), jdbcConfig.getUserName(), jdbcConfig.getPassword());
@@ -21,7 +25,7 @@ public class JDBCController {
     jdbcService.setTableName(tableName);
   }
 
-  public JDBCConfig getJdbcConfig(){
+  public JDBCConfig getJdbcConfig() {
     return jdbcService.getJdbcConfig();
   }
 
@@ -38,6 +42,18 @@ public class JDBCController {
   }
 
   public boolean tryToConnect(JDBCConfig jdbcConfig) {
-    return false;
+    return jdbcService.tryToConnect(jdbcConfig);
+  }
+
+  public void insertData() {
+    jdbcService.insertData();
+  }
+
+  public boolean checkIfExistTable() {
+    return jdbcService.checkIfExistTable();
+  }
+
+  public void createNewTable(){
+    jdbcService.createNewTable();
   }
 }

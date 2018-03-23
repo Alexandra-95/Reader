@@ -1,9 +1,7 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CSVConfig {
+
   private String path;
   private String lineSeparator;
   private String tableName;

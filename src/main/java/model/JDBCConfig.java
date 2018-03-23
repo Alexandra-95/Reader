@@ -1,6 +1,7 @@
 package model;
 
 public class JDBCConfig {
+
   private String driver;
   private String url;
   private String userName;

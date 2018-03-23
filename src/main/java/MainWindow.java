@@ -19,15 +19,17 @@ import javafx.stage.Stage;
 
 public class MainWindow extends javafx.application.Application implements Initializable {
 
-  private static final Stage primaryStage = new Stage();
+  private static Stage primaryStage = new Stage();
 
   private static final DBConfig dbConfig = new DBConfig();
 
   public static final MainWindow mainWindow = new MainWindow();
 
-  public static final TableExistsInformation tableExist = new TableExistsInformation();
+  private static final TableExistsInformation tableExist = new TableExistsInformation();
 
   private static final CSVController csvController = new CSVController();
+
+  public static final InsertProgress progress = new InsertProgress();
 
   @FXML
   private Label chooseFileArea;
@@ -56,6 +58,10 @@ public class MainWindow extends javafx.application.Application implements Initia
   @Override
   public void start(Stage primaryStage) throws Exception {
     getWindow();
+  }
+
+  public static void setScene(Stage stage){
+    primaryStage = stage;
   }
 
   public void getWindow() {
@@ -151,8 +157,15 @@ public class MainWindow extends javafx.application.Application implements Initia
         separatorStatus.getText()
                        .equals("") &&
         readFileStatus.getText()
-                      .equals("")) {
-      tableExist.getWindow();
+                      .equals("Файл успешно считан")) {
+      DBConfig.jdbsController.setTableName(tableName.getText());
+      if (DBConfig.jdbsController.checkIfExistTable()){
+        tableExist.getWindow();
+      } else {
+        DBConfig.jdbsController.setLines(CSVController.getLines());
+        DBConfig.jdbsController.createNewTable();
+        MainWindow.progress.getWindow(new Stage());
+      }
     }
   }
 
