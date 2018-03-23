@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import javafx.scene.control.ProgressBar;
 import model.JDBCConfig;
 import view.JDBCService;
 

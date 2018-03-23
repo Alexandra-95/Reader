@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import javafx.scene.control.ProgressBar;
 import model.JDBCConfig;
 
 public class JDBCService {

@@ -39,7 +39,7 @@ public class CSVService {
     try (BufferedReader bufferedReader = new BufferedReader(new FileReader(csvConfig.getPath()))) {
       String line;
       while ((line = bufferedReader.readLine()) != null) {
-        String[] dataSet = line.split(csvConfig.getLineSeparator());
+        String[] dataSet = line.replace("\"", "").split(csvConfig.getLineSeparator());
         if (length == 0) {
           countWords = line.length() - line.replace(csvConfig.getLineSeparator(), "")
                                            .length();

@@ -1,9 +1,9 @@
-import controller.CSVController;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -15,6 +15,9 @@ public class InsertProgress {
   private Button done;
 
   @FXML
+  private ProgressBar progressBar = new ProgressBar();
+
+  @FXML
   private void progressDone() {
     Stage stage = (Stage) done.getScene()
                               .getWindow();
@@ -23,11 +26,11 @@ public class InsertProgress {
   }
 
   public void getWindow(Stage stage) {
-    DBConfig.jdbsController.save();
     try {
       InsertProgress.stage = stage;
       initWindow();
       stage.show();
+      DBConfig.jdbsController.save();
     } catch (IOException e) {
       e.printStackTrace();
     }
