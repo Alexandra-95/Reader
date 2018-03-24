@@ -2,16 +2,12 @@ import controller.JDBCController;
 import java.io.IOException;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class InsertProgress {
 
-  private static Stage stage;
 
   @FXML
   private Button done;
@@ -24,13 +20,12 @@ public class InsertProgress {
     Stage stage = (Stage) done.getScene()
                               .getWindow();
     stage.close();
-    MainWindow.mainWindow.getWindow();
+    InitProgram.mainWindow.getWindow();
   }
 
   public void getWindow(Stage stage) {
     try {
-      InsertProgress.stage = stage;
-      initWindow();
+      InitProgram.initWindowInsertProgress(stage);
       stage.show();
       initProgressBar();
     } catch (IOException e) {
@@ -52,17 +47,6 @@ public class InsertProgress {
     Thread thread = new Thread(JDBCController.jdbcService);
     thread.setDaemon(true);
     thread.start();
-  }
-
-  private void initWindow() throws IOException {
-    // Загружаем корневой макет из fxml файла.
-    FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(MainWindow.class.getResource("insert_progress.fxml"));
-    AnchorPane rootLayout = loader.load();
-    Scene dbConfig = new Scene(rootLayout);
-    // Отображаем сцену, содержащую корневой макет.
-    stage.setTitle("Прогресс записи.");
-    stage.setScene(dbConfig);
   }
 
 }

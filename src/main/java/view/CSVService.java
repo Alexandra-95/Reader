@@ -1,8 +1,6 @@
 package view;
 
-import controller.CSVController;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,10 +8,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.concurrent.Task;
-import javafx.scene.control.ProgressBar;
 import model.CSVConfig;
 
-public class CSVService  extends Task<List<String[]>> {
+public class CSVService extends Task<List<String[]>> {
 
   private static final CSVConfig csvConfig = new CSVConfig();
 
@@ -40,7 +37,7 @@ public class CSVService  extends Task<List<String[]>> {
     csvConfig.setLineSeparator(lineSeparator);
   }
 
-  public List<String[]> read() {
+  private List<String[]> read() {
     numberStrError = 0;
     List<String[]> result = new ArrayList<>();
     lines.clear();
@@ -49,7 +46,8 @@ public class CSVService  extends Task<List<String[]>> {
     int lastIndex = 1;
     double size = 0;
     try {
-      size = Files.lines(Paths.get(csvConfig.getPath())).count();
+      size = Files.lines(Paths.get(csvConfig.getPath()))
+                  .count();
     } catch (IOException e) {
       e.printStackTrace();
     }

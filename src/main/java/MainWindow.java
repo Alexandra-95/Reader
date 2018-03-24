@@ -1,37 +1,18 @@
 import controller.CSVController;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class MainWindow extends javafx.application.Application implements Initializable {
-
-  private static Stage primaryStage = new Stage();
-
-  private static final DBConfig dbConfig = new DBConfig();
-
-  public static final MainWindow mainWindow = new MainWindow();
-
-  private static final TableExistsInformation tableExist = new TableExistsInformation();
-
-  private static final CSVController csvController = new CSVController();
-
-  public static final InsertProgress progress = new InsertProgress();
-
 
   @FXML
   private Label chooseFileArea;
@@ -57,41 +38,19 @@ public class MainWindow extends javafx.application.Application implements Initia
   @FXML
   private Label readFileStatus;
 
-  @FXML
-  private ProgressBar progressFileBar;
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
+  public void start(Stage primaryStage) {
     getWindow();
   }
 
-  public static void setScene(Stage stage) {
-    primaryStage = stage;
-  }
-
   public void getWindow() {
-    primaryStage.show();
-  }
-
-  static {
-    // Загружаем корневой макет из fxml файла.
-    FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(MainWindow.class.getResource("main_window.fxml"));
-    AnchorPane rootLayout = null;
-    try {
-      rootLayout = loader.load();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    // Отображаем сцену, содержащую корневой макет.
-    Scene mainWindow = new Scene(Objects.requireNonNull(rootLayout));
-    primaryStage.setTitle("main page");
-    primaryStage.setScene(mainWindow);
+    InitProgram.primaryStage.show();
   }
 
   @FXML
   private void dbConfig() {
-    dbConfig.getWindow();
+    InitProgram.dbConfig.getWindow();
   }
 
   @FXML
@@ -107,12 +66,13 @@ public class MainWindow extends javafx.application.Application implements Initia
         separatorStatus.setTextFill(Color.RED);
       } else {
         separatorStatus.setText("");
-        csvController.setCSVConfig(chooseFileArea.getText(), (String) lineSeparator.getValue());
+        InitProgram.csvController.setCSVConfig(chooseFileArea.getText(),
+            (String) lineSeparator.getValue());
         //initProgressBar();
-        CSVController.setLines(csvController.read());
-        if (!csvController.getError()
-                          .equals("")) {
-          readFileStatus.setText(csvController.getError());
+        CSVController.setLines(InitProgram.csvController.read());
+        if (!InitProgram.csvController.getError()
+                                      .equals("")) {
+          readFileStatus.setText(InitProgram.csvController.getError());
           readFileStatus.setTextFill(Color.RED);
         } else {
           readFileStatus.setText("Файл успешно считан");
@@ -123,40 +83,40 @@ public class MainWindow extends javafx.application.Application implements Initia
 
   }
 
-//  private void initProgressBar() {
-//    progressFileBar.progressProperty()
-//                   .unbind();
-//    progressFileBar.progressProperty()
-//                   .bind(CSVController.csvService.progressProperty());
-//    readFileStatus.textProperty()
-//                  .unbind();
-//    readFileStatus.textProperty()
-//                  .bind(CSVController.csvService.messageProperty());
-//    CSVController.csvService.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
-//        event -> {
-//          List<String[]> lines = CSVController.csvService.getValue();
-//          CSVController.setLines(lines);
-//          readFileStatus.textProperty()
-//                        .unbind();
-//          if (!csvController.getError()
-//                            .equals("")) {
-//            readFileStatus.setText(csvController.getError());
-//            readFileStatus.setTextFill(Color.RED);
-//          } else {
-//            readFileStatus.setText("Файл успешно считан");
-//            readFileStatus.setTextFill(Color.GREEN);
-//          }
-//
-//        });
-//    Thread thread = new Thread(CSVController.csvService);
-//    thread.setDaemon(true);
-//    thread.start();
-//  }
+  //  private void initProgressBar() {
+  //    progressFileBar.progressProperty()
+  //                   .unbind();
+  //    progressFileBar.progressProperty()
+  //                   .bind(CSVController.csvService.progressProperty());
+  //    readFileStatus.textProperty()
+  //                  .unbind();
+  //    readFileStatus.textProperty()
+  //                  .bind(CSVController.csvService.messageProperty());
+  //    CSVController.csvService.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
+  //        event -> {
+  //          List<String[]> lines = CSVController.csvService.getValue();
+  //          CSVController.setLines(lines);
+  //          readFileStatus.textProperty()
+  //                        .unbind();
+  //          if (!csvController.getError()
+  //                            .equals("")) {
+  //            readFileStatus.setText(csvController.getError());
+  //            readFileStatus.setTextFill(Color.RED);
+  //          } else {
+  //            readFileStatus.setText("Файл успешно считан");
+  //            readFileStatus.setTextFill(Color.GREEN);
+  //          }
+  //
+  //        });
+  //    Thread thread = new Thread(CSVController.csvService);
+  //    thread.setDaemon(true);
+  //    thread.start();
+  //  }
 
   @FXML
   private void startConvertation() {
     readFile();
-    if (!DBConfig.jdbsController.tryToConnect(DBConfig.jdbsController.getJdbcConfig())) {
+    if (!InitProgram.jdbsController.tryToConnect(InitProgram.jdbsController.getJdbcConfig())) {
       configurationStatus.setText("Соединение не установлено.");
       configurationStatus.setTextFill(Color.RED);
     } else {
@@ -192,13 +152,13 @@ public class MainWindow extends javafx.application.Application implements Initia
                        .equals("") &&
         readFileStatus.getText()
                       .equals("Файл успешно считан")) {
-      DBConfig.jdbsController.setTableName(tableName.getText());
-      if (DBConfig.jdbsController.checkIfExistTable()) {
-        tableExist.getWindow();
+      InitProgram.jdbsController.setTableName(tableName.getText());
+      if (InitProgram.jdbsController.checkIfExistTable()) {
+        InitProgram.tableExist.getWindow();
       } else {
-        DBConfig.jdbsController.setLines(CSVController.getLines());
-        DBConfig.jdbsController.createNewTable();
-        MainWindow.progress.getWindow(new Stage());
+        InitProgram.jdbsController.setLines(CSVController.getLines());
+        InitProgram.jdbsController.createNewTable();
+        InitProgram.progress.getWindow(new Stage());
       }
     }
   }
@@ -210,7 +170,7 @@ public class MainWindow extends javafx.application.Application implements Initia
                .addAll(
                    new ExtensionFilter("CSV Files", "*.csv"));
     fileChooser.setTitle("Open Resource File");
-    File selectedFile = fileChooser.showOpenDialog(primaryStage);
+    File selectedFile = fileChooser.showOpenDialog(InitProgram.primaryStage);
     if (selectedFile != null) {
       chooseFileArea.setText(selectedFile.getAbsolutePath());
     }

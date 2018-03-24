@@ -2,7 +2,6 @@ package view;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -46,13 +45,13 @@ public class JDBCService extends Task {
     }
   }
 
-  public void dropTable() {
+  private void dropTable() {
     startConnection();
     queryRunner("DROP TABLE " + tableName);
     closeConnection();
   }
 
-  public void createTable() {
+  private void createTable() {
     startConnection();
     String[] nameColumns = lines.get(0);
     StringBuilder sql = new StringBuilder("CREATE TABLE " + tableName + " (");
@@ -65,7 +64,7 @@ public class JDBCService extends Task {
     closeConnection();
   }
 
-  public Object save() {
+  private Object save() {
     startConnection();
     lines.remove(0);
     double size = lines.size();
