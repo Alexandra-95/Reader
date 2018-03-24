@@ -7,8 +7,8 @@
 
 <AnchorPane prefHeight="161.0" prefWidth="525.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InsertProgress">
    <children>
-      <ProgressBar fx:id="progressBar" layoutX="28.0" layoutY="73.0" prefHeight="42.0" prefWidth="470.0" progress="0.0" />
       <Button fx:id="done" layoutX="188.0" layoutY="122.0" mnemonicParsing="false" onAction="#progressDone" prefHeight="25.0" prefWidth="151.0" text="OK" />
       <Label fx:id="supportText" layoutX="28.0" layoutY="38.0" prefHeight="17.0" prefWidth="403.0" text="Идет процесс записи файла в базу данных. Пожалуйста, подождите....." />
+      <ProgressBar fx:id="progressBar" layoutX="88.0" layoutY="81.0" prefWidth="200.0" progress="0.0" />
    </children>
 </AnchorPane>

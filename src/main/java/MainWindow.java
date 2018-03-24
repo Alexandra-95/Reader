@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -30,6 +31,7 @@ public class MainWindow extends javafx.application.Application implements Initia
   private static final CSVController csvController = new CSVController();
 
   public static final InsertProgress progress = new InsertProgress();
+
 
   @FXML
   private Label chooseFileArea;
@@ -55,12 +57,15 @@ public class MainWindow extends javafx.application.Application implements Initia
   @FXML
   private Label readFileStatus;
 
+  @FXML
+  private ProgressBar progressFileBar;
+
   @Override
   public void start(Stage primaryStage) throws Exception {
     getWindow();
   }
 
-  public static void setScene(Stage stage){
+  public static void setScene(Stage stage) {
     primaryStage = stage;
   }
 
@@ -102,10 +107,9 @@ public class MainWindow extends javafx.application.Application implements Initia
         separatorStatus.setTextFill(Color.RED);
       } else {
         separatorStatus.setText("");
-        readFileStatus.setText("In progress...");
-        readFileStatus.setTextFill(Color.GREEN);
         csvController.setCSVConfig(chooseFileArea.getText(), (String) lineSeparator.getValue());
-        csvController.read();
+        //initProgressBar();
+        CSVController.setLines(csvController.read());
         if (!csvController.getError()
                           .equals("")) {
           readFileStatus.setText(csvController.getError());
@@ -118,6 +122,36 @@ public class MainWindow extends javafx.application.Application implements Initia
     }
 
   }
+
+//  private void initProgressBar() {
+//    progressFileBar.progressProperty()
+//                   .unbind();
+//    progressFileBar.progressProperty()
+//                   .bind(CSVController.csvService.progressProperty());
+//    readFileStatus.textProperty()
+//                  .unbind();
+//    readFileStatus.textProperty()
+//                  .bind(CSVController.csvService.messageProperty());
+//    CSVController.csvService.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
+//        event -> {
+//          List<String[]> lines = CSVController.csvService.getValue();
+//          CSVController.setLines(lines);
+//          readFileStatus.textProperty()
+//                        .unbind();
+//          if (!csvController.getError()
+//                            .equals("")) {
+//            readFileStatus.setText(csvController.getError());
+//            readFileStatus.setTextFill(Color.RED);
+//          } else {
+//            readFileStatus.setText("Файл успешно считан");
+//            readFileStatus.setTextFill(Color.GREEN);
+//          }
+//
+//        });
+//    Thread thread = new Thread(CSVController.csvService);
+//    thread.setDaemon(true);
+//    thread.start();
+//  }
 
   @FXML
   private void startConvertation() {
@@ -159,7 +193,7 @@ public class MainWindow extends javafx.application.Application implements Initia
         readFileStatus.getText()
                       .equals("Файл успешно считан")) {
       DBConfig.jdbsController.setTableName(tableName.getText());
-      if (DBConfig.jdbsController.checkIfExistTable()){
+      if (DBConfig.jdbsController.checkIfExistTable()) {
         tableExist.getWindow();
       } else {
         DBConfig.jdbsController.setLines(CSVController.getLines());

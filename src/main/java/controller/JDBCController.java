@@ -1,15 +1,14 @@
 package controller;
 
 import java.util.List;
-import javafx.scene.control.ProgressBar;
 import model.JDBCConfig;
 import view.JDBCService;
 
 public class JDBCController {
 
-  private static final JDBCService jdbcService = new JDBCService();
+  public static final JDBCService jdbcService = new JDBCService();
 
-  public void setTableToRewrite(boolean what){
+  public void setTableToRewrite(boolean what) {
     jdbcService.setTableToRewrite(what);
   }
 
@@ -30,18 +29,6 @@ public class JDBCController {
     return jdbcService.getJdbcConfig();
   }
 
-  public void dropTable() {
-    jdbcService.dropTable();
-  }
-
-  public void createTable() {
-    jdbcService.createTable();
-  }
-
-  public void save() {
-    jdbcService.save();
-  }
-
   public boolean tryToConnect(JDBCConfig jdbcConfig) {
     return jdbcService.tryToConnect(jdbcConfig);
   }
@@ -54,7 +41,7 @@ public class JDBCController {
     return jdbcService.checkIfExistTable();
   }
 
-  public void createNewTable(){
+  public void createNewTable() {
     jdbcService.createNewTable();
   }
 }

@@ -1,11 +1,14 @@
 package controller;
 
+import java.io.File;
 import java.util.List;
+import javafx.concurrent.Task;
+import javafx.scene.control.ProgressBar;
 import view.CSVService;
 
 public class CSVController {
 
-  private static final CSVService csvService = new CSVService();
+  public static final CSVService csvService = new CSVService();
 
   public void setCSVConfig(String path, String lineSeparator) {
     csvService.setCSVConfig(path, lineSeparator);
@@ -15,12 +18,16 @@ public class CSVController {
     csvService.setCSVConfig(path, lineSeparator, tableName);
   }
 
-  public void read() {
-    csvService.read();
-  }
-
   public static List<String[]> getLines() {
     return CSVService.getLines();
+  }
+
+  public static void setLines(List<String[]> lines) {
+    CSVService.setLines(lines);
+  }
+
+  public List<String[]> read(){
+      return csvService.call();
   }
 
   public String getError() {

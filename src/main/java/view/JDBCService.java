@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import javafx.scene.control.ProgressBar;
+import javafx.concurrent.Task;
 import model.JDBCConfig;
 
-public class JDBCService {
+public class JDBCService extends Task {
 
   private static final JDBCConfig jdbcConfig = new JDBCConfig();
   private List<String[]> lines;
@@ -65,9 +65,11 @@ public class JDBCService {
     closeConnection();
   }
 
-  public void save() {
+  public Object save() {
     startConnection();
     lines.remove(0);
+    double size = lines.size();
+    double counter = 1;
     for (String[] line : lines) {
       StringBuilder sql = new StringBuilder("INSERT INTO ");
       sql.append(tableName)
@@ -77,9 +79,12 @@ public class JDBCService {
             "'" + line[i] + "'" + ");" :
             "'" + line[i] + "'" + ", ");
       }
+      this.updateProgress(counter, size);
+      counter++;
       queryRunner(sql.toString());
     }
     closeConnection();
+    return "OK";
   }
 
   private String convertNameDBTODriver(String name) {
@@ -112,18 +117,14 @@ public class JDBCService {
     this.tableToRewrite = tableToRewrite;
   }
 
-  public void createNewTable(){
+  public void createNewTable() {
     createTable();
-    //save();
   }
 
   public void insertData() {
     if (tableToRewrite) {
       dropTable();
       createTable();
-      //save();
-    } else {
-      //save();
     }
   }
 
@@ -147,13 +148,17 @@ public class JDBCService {
   public boolean checkIfExistTable() {
     startConnection();
     Statement stmt;
-    boolean result;
     try {
       stmt = conn.createStatement();
-      ResultSet resultSet = stmt.executeQuery("SELECT count(*) FROM " + tableName);
+      stmt.executeQuery("SELECT count(*) FROM " + tableName);
       return true;
     } catch (SQLException e) {
       return false;
     }
+  }
+
+  @Override
+  protected Object call() {
+    return save();
   }
 }

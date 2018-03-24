@@ -1,4 +1,6 @@
+import controller.JDBCController;
 import java.io.IOException;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -30,10 +32,26 @@ public class InsertProgress {
       InsertProgress.stage = stage;
       initWindow();
       stage.show();
-      DBConfig.jdbsController.save();
+      initProgressBar();
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  private void initProgressBar() {
+    progressBar.setProgress(0);
+    progressBar.progressProperty()
+               .unbind();
+    progressBar.progressProperty()
+               .bind(JDBCController.jdbcService.progressProperty());
+    JDBCController.jdbcService.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
+        event -> {
+          Object p = JDBCController.jdbcService.getValue();
+          System.out.println(p.toString());
+        });
+    Thread thread = new Thread(JDBCController.jdbcService);
+    thread.setDaemon(true);
+    thread.start();
   }
 
   private void initWindow() throws IOException {
@@ -46,4 +64,5 @@ public class InsertProgress {
     stage.setTitle("Прогресс записи.");
     stage.setScene(dbConfig);
   }
+
 }
