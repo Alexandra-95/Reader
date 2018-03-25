@@ -9,10 +9,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="311.0" prefWidth="373.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DBConfig">
+<AnchorPane prefHeight="311.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DBConfig">
     <children>
-        <TextField fx:id="userName" layoutX="214.0" layoutY="30.0" />
-        <ChoiceBox fx:id="chooseDMS" layoutX="214.0" layoutY="115.0" prefWidth="150.0" value="Выбрать">
+        <TextField fx:id="userName" layoutX="244.0" layoutY="30.0" />
+        <ChoiceBox fx:id="chooseDMS" layoutX="243.0" layoutY="115.0" prefWidth="150.0" value="Выбрать">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="PostgreSQL" />
@@ -20,7 +20,7 @@
                 </FXCollections>
             </items>
         </ChoiceBox>
-        <TextField fx:id="urlDB" layoutX="214.0" layoutY="161.0" />
+        <TextField fx:id="urlDB" layoutX="244.0" layoutY="161.0" />
         <Button layoutX="28.0" layoutY="211.0" mnemonicParsing="false" onAction="#testConnection" prefHeight="25.0" prefWidth="142.0" text="Тестовое соединение" />
         <Label fx:id="resultConnection" layoutX="187.0" layoutY="215.0" prefHeight="17.0" prefWidth="176.0" />
         <Label layoutX="23.0" layoutY="34.0" prefHeight="17.0" prefWidth="115.0" text="Имя пользователя : " />
@@ -29,6 +29,10 @@
         <Label layoutX="29.0" layoutY="165.0" prefHeight="17.0" prefWidth="104.0" text="url базы данных : " />
         <Button layoutX="47.0" layoutY="272.0" mnemonicParsing="false" onAction="#okDBConfig" prefHeight="25.0" prefWidth="104.0" text="ОК" />
         <Button fx:id="cancelConfig" layoutX="214.0" layoutY="272.0" mnemonicParsing="false" onAction="#cancelDBConfig" prefHeight="25.0" prefWidth="104.0" text="Отмена" />
-      <PasswordField fx:id="password" layoutX="215.0" layoutY="70.0" />
+      <PasswordField fx:id="password" layoutX="244.0" layoutY="70.0" />
+      <Label fx:id="enterUserName" layoutX="168.0" layoutY="34.0" prefHeight="17.0" prefWidth="67.0" />
+      <Label fx:id="enterPassword" layoutX="169.0" layoutY="74.0" prefHeight="17.0" prefWidth="67.0" />
+      <Label fx:id="enterDBMS" layoutX="167.0" layoutY="119.0" prefHeight="17.0" prefWidth="67.0" />
+      <Label fx:id="enterUrl" layoutX="167.0" layoutY="165.0" prefHeight="17.0" prefWidth="67.0" />
     </children>
 </AnchorPane>

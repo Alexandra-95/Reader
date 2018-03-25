@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 
 public class InitProgram {
 
+  public static final Stage stageExtraInf = new Stage();
+
   public static final Stage stageInsertProgress = new Stage();
 
   public static final Stage stageDBConfig = new Stage();
@@ -36,19 +38,19 @@ public class InitProgram {
     AnchorPane rootLayout = loader.load();
     Scene dbConfig = new Scene(rootLayout);
     // Отображаем сцену, содержащую корневой макет.
-    stageInsertProgress.setTitle("Нужно больше информации");
-    stageInsertProgress.setScene(dbConfig);
+    stageExtraInf.setTitle("Нужно больше информации");
+    stageExtraInf.setScene(dbConfig);
   }
 
-  public static void initWindowInsertProgress(Stage stage) throws IOException {
+  public static void initWindowInsertProgress() throws IOException {
     // Загружаем корневой макет из fxml файла.
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(MainWindow.class.getResource("insert_progress.fxml"));
     AnchorPane rootLayout = loader.load();
     Scene dbConfig = new Scene(rootLayout);
     // Отображаем сцену, содержащую корневой макет.
-    stage.setTitle("Прогресс записи.");
-    stage.setScene(dbConfig);
+    stageInsertProgress.setTitle("Прогресс записи.");
+    stageInsertProgress.setScene(dbConfig);
   }
 
   public static void initWindowDBConfig() throws IOException {
@@ -74,11 +76,13 @@ public class InitProgram {
     }
     // Отображаем сцену, содержащую корневой макет.
     Scene mainWindow = new Scene(Objects.requireNonNull(rootLayout));
-    InitProgram.primaryStage.setTitle("main page");
-    InitProgram.primaryStage.setScene(mainWindow);
+    primaryStage.setTitle("main page");
+    primaryStage.setScene(mainWindow);
     /////////////////////////
-    InitProgram.stageInsertProgress.initModality(Modality.APPLICATION_MODAL);
+    stageExtraInf.initModality(Modality.APPLICATION_MODAL);
     //////////////////////////
-    InitProgram.stageDBConfig.initModality(Modality.APPLICATION_MODAL);
+    stageDBConfig.initModality(Modality.APPLICATION_MODAL);
+    //////////////////////////
+    stageInsertProgress.initModality(Modality.APPLICATION_MODAL);
   }
 }

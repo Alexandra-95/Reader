@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class TableExistsInformation {
 
@@ -24,7 +25,9 @@ public class TableExistsInformation {
                                                                  .equals(
                                                                      "Удалить существующие данные"));
       InitProgram.jdbsController.insertData();
-      InitProgram.progress.getWindow(InitProgram.stageInsertProgress);
+      Stage stage = InitProgram.stageExtraInf;
+      stage.close();
+      InitProgram.progress.getWindow();
     }
   }
 
@@ -36,7 +39,7 @@ public class TableExistsInformation {
   public void getWindow() {
     try {
       InitProgram.initWindowTableExistInf();
-      InitProgram.stageInsertProgress.show();
+      InitProgram.stageExtraInf.show();
     } catch (IOException e) {
       e.printStackTrace();
     }

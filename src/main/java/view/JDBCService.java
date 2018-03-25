@@ -15,6 +15,7 @@ public class JDBCService extends Task {
   private String tableName;
   private Connection conn = null;
   private boolean tableToRewrite;
+  private String setTypeData;
 
   public void setJDBCConfig(String driver, String url, String userName, String password) {
     jdbcConfig.setUserName(userName);
@@ -57,8 +58,8 @@ public class JDBCService extends Task {
     StringBuilder sql = new StringBuilder("CREATE TABLE " + tableName + " (");
     for (int i = 0; i < nameColumns.length; i++) {
       sql.append(i == nameColumns.length - 1 ?
-          nameColumns[i] + " text);" :
-          nameColumns[i] + " text, ");
+          nameColumns[i] + " " + setTypeData + ");" :
+          nameColumns[i] + " " + setTypeData + ", ");
     }
     queryRunner(sql.toString());
     closeConnection();
@@ -88,9 +89,11 @@ public class JDBCService extends Task {
 
   private String convertNameDBTODriver(String name) {
     if (name.equals("PostgreSQL")) {
+      setTypeData = "text";
       return "org.postgresql.Driver";
     } else {
-      return null;
+      setTypeData = "VARCHAR(255)";
+      return "com.mysql.jdbc.Driver";
     }
   }
 
@@ -128,6 +131,15 @@ public class JDBCService extends Task {
   }
 
   public boolean tryToConnect(JDBCConfig jdbcConfig) {
+    if (jdbcConfig.getDriver() == null && jdbcConfig.getPassword() == null &&
+        jdbcConfig.getUrl() == null && jdbcConfig.getUserName() == null) {
+      return false;
+    } else {
+      return testConnection();
+    }
+  }
+
+  private boolean testConnection() {
     try {
       Class.forName(convertNameDBTODriver(jdbcConfig.getDriver()));
     } catch (ClassNotFoundException e) {

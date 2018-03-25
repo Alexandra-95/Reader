@@ -31,31 +31,86 @@ public class DBConfig {
   private Label resultConnection;
 
   @FXML
-  public void testConnection() {
-    jdbcConfig.setUserName(userName.getText());
-    jdbcConfig.setUrl(urlDB.getText());
-    jdbcConfig.setPassword(password.getText());
-    jdbcConfig.setDriver((String) chooseDMS.getValue());
-    if (InitProgram.jdbsController.tryToConnect(jdbcConfig)) {
-      resultConnection.setText("Соединение установлено.");
-      resultConnection.setTextFill(Color.GREEN);
+  private Label enterUserName;
+
+  @FXML
+  private Label enterPassword;
+  @FXML
+  private Label enterDBMS;
+  @FXML
+  private Label enterUrl;
+
+  @FXML
+  private boolean checker() {
+    if (userName.getText()
+                .equals("")) {
+      enterUserName.setText("Введите");
+      enterUserName.setTextFill(Color.RED);
     } else {
-      resultConnection.setText("Соединение не установлено.");
-      resultConnection.setTextFill(Color.RED);
+      enterUserName.setText("");
+    }
+    if (password.getText()
+                .equals("")) {
+      enterPassword.setText("Введите");
+      enterPassword.setTextFill(Color.RED);
+    } else {
+      enterPassword.setText("");
+    }
+    if (chooseDMS.getValue().equals("Выбрать")) {
+      enterDBMS.setText("Введите");
+      enterDBMS.setTextFill(Color.RED);
+    } else {
+      enterDBMS.setText("");
+    }
+    if (urlDB.getText()
+             .equals("")) {
+      enterUrl.setText("Введите");
+      enterUrl.setTextFill(Color.RED);
+    } else {
+      enterUrl.setText("");
+    }
+    if (enterUserName.getText()
+                     .equals("") && enterPassword.getText()
+                                                 .equals("")
+        && enterDBMS.getText()
+                    .equals("") && enterUrl.getText()
+                                           .equals("")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @FXML
+  public void testConnection() {
+    if (checker()) {
+      jdbcConfig.setUserName(userName.getText());
+      jdbcConfig.setUrl(urlDB.getText());
+      jdbcConfig.setPassword(password.getText());
+      jdbcConfig.setDriver((String) chooseDMS.getValue());
+      if (InitProgram.jdbsController.tryToConnect(jdbcConfig)) {
+        resultConnection.setText("Соединение установлено.");
+        resultConnection.setTextFill(Color.GREEN);
+      } else {
+        resultConnection.setText("Соединение не установлено.");
+        resultConnection.setTextFill(Color.RED);
+      }
     }
   }
 
   @FXML
   public void okDBConfig() {
-    jdbcConfig.setUserName(userName.getText());
-    jdbcConfig.setUrl(urlDB.getText());
-    jdbcConfig.setPassword(password.getText());
-    jdbcConfig.setDriver((String) chooseDMS.getValue());
-    Stage stage = (Stage) cancelConfig.getScene()
-                                      .getWindow();
-    InitProgram.jdbsController.setJDBCConfig(jdbcConfig);
-    stage.close();
-    InitProgram.mainWindow.getWindow();
+    if (checker()) {
+      jdbcConfig.setUserName(userName.getText());
+      jdbcConfig.setUrl(urlDB.getText());
+      jdbcConfig.setPassword(password.getText());
+      jdbcConfig.setDriver((String) chooseDMS.getValue());
+      Stage stage = (Stage) cancelConfig.getScene()
+                                        .getWindow();
+      InitProgram.jdbsController.setJDBCConfig(jdbcConfig);
+      stage.close();
+      InitProgram.mainWindow.getWindow();
+    }
   }
 
   @FXML

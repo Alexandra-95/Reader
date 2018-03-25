@@ -27,10 +27,10 @@ public class InsertProgress {
     InitProgram.mainWindow.getWindow();
   }
 
-  public void getWindow(Stage stage) {
+  public void getWindow() {
     try {
-      InitProgram.initWindowInsertProgress(stage);
-      stage.show();
+      InitProgram.initWindowInsertProgress();
+      InitProgram.stageInsertProgress.show();
     } catch (IOException e) {
       e.printStackTrace();
     }

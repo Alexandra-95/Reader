@@ -48,6 +48,7 @@ public class MainWindow extends javafx.application.Application implements Initia
   @FXML
   private Button clickReadFile;
 
+  @FXML
   private void disableAll() {
     tableName.setDisable(true);
     lineSeparator.setDisable(true);
@@ -56,6 +57,7 @@ public class MainWindow extends javafx.application.Application implements Initia
     clickReadFile.setDisable(true);
   }
 
+  @FXML
   private void enableAll() {
     tableName.setDisable(false);
     lineSeparator.setDisable(false);
@@ -80,64 +82,38 @@ public class MainWindow extends javafx.application.Application implements Initia
 
   @FXML
   private void readFile() {
-    disableAll();
+    int count = 0;
+    if (lineSeparator.getValue() == null) {
+      separatorStatus.setText("Разделители не заданы.");
+      separatorStatus.setTextFill(Color.RED);
+      count++;
+    } else {
+      separatorStatus.setText("");
+    }
     if (chooseFileArea.getText()
                       .equals("")) {
       csvStatus.setText("Не задан файл.");
       csvStatus.setTextFill(Color.RED);
+      count++;
     } else {
       csvStatus.setText("");
-      if (lineSeparator.getValue() == null) {
-        separatorStatus.setText("Разделители не заданы.");
-        separatorStatus.setTextFill(Color.RED);
-      } else {
-        separatorStatus.setText("");
-        InitProgram.csvController.setCSVConfig(chooseFileArea.getText(),
-            (String) lineSeparator.getValue());
-        //initProgressBar();
-        CSVController.setLines(InitProgram.csvController.read());
-        if (!InitProgram.csvController.getError()
-                                      .equals("")) {
-          readFileStatus.setText(InitProgram.csvController.getError());
-          readFileStatus.setTextFill(Color.RED);
-        } else {
-          readFileStatus.setText("Файл успешно считан");
-          readFileStatus.setTextFill(Color.GREEN);
-        }
-      }
     }
-    enableAll();
+    if (count == 0) {
+      InitProgram.csvController.setCSVConfig(chooseFileArea.getText(),
+          (String) lineSeparator.getValue());
+      //indicatorReading.setProgress(-1D);
+      CSVController.setLines(InitProgram.csvController.read());
+      if (!InitProgram.csvController.getError()
+                                    .equals("")) {
+        readFileStatus.setText(InitProgram.csvController.getError());
+        readFileStatus.setTextFill(Color.RED);
+      } else {
+        readFileStatus.setText("Файл успешно считан");
+        readFileStatus.setTextFill(Color.GREEN);
+      }
+      //indicatorReading.setProgress(0);
+    }
   }
-
-  //  private void initProgressBar() {
-  //    progressFileBar.progressProperty()
-  //                   .unbind();
-  //    progressFileBar.progressProperty()
-  //                   .bind(CSVController.csvService.progressProperty());
-  //    readFileStatus.textProperty()
-  //                  .unbind();
-  //    readFileStatus.textProperty()
-  //                  .bind(CSVController.csvService.messageProperty());
-  //    CSVController.csvService.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
-  //        event -> {
-  //          List<String[]> lines = CSVController.csvService.getValue();
-  //          CSVController.setLines(lines);
-  //          readFileStatus.textProperty()
-  //                        .unbind();
-  //          if (!csvController.getError()
-  //                            .equals("")) {
-  //            readFileStatus.setText(csvController.getError());
-  //            readFileStatus.setTextFill(Color.RED);
-  //          } else {
-  //            readFileStatus.setText("Файл успешно считан");
-  //            readFileStatus.setTextFill(Color.GREEN);
-  //          }
-  //
-  //        });
-  //    Thread thread = new Thread(CSVController.csvService);
-  //    thread.setDaemon(true);
-  //    thread.start();
-  //  }
 
   @FXML
   private void startConvertation() {
@@ -185,7 +161,7 @@ public class MainWindow extends javafx.application.Application implements Initia
         InitProgram.tableExist.getWindow();
       } else {
         InitProgram.jdbsController.createNewTable();
-        InitProgram.progress.getWindow(new Stage());
+        InitProgram.progress.getWindow();
       }
     }
     enableAll();
