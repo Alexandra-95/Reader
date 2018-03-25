@@ -35,8 +35,7 @@ public class DBConfig {
 
   @FXML
   private Label enterPassword;
-  @FXML
-  private Label enterDBMS;
+
   @FXML
   private Label enterUrl;
 
@@ -56,12 +55,6 @@ public class DBConfig {
     } else {
       enterPassword.setText("");
     }
-    if (chooseDMS.getValue().equals("Выбрать")) {
-      enterDBMS.setText("Введите");
-      enterDBMS.setTextFill(Color.RED);
-    } else {
-      enterDBMS.setText("");
-    }
     if (urlDB.getText()
              .equals("")) {
       enterUrl.setText("Введите");
@@ -72,9 +65,8 @@ public class DBConfig {
     if (enterUserName.getText()
                      .equals("") && enterPassword.getText()
                                                  .equals("")
-        && enterDBMS.getText()
-                    .equals("") && enterUrl.getText()
-                                           .equals("")) {
+        && enterUrl.getText()
+                   .equals("")) {
       return true;
     } else {
       return false;
@@ -133,6 +125,7 @@ public class DBConfig {
 
   @FXML
   public void initialize() {
+    chooseDMS.setValue("PostgreSQL");
     if (jdbcConfig.getUserName() != null) {
       userName.setText(jdbcConfig.getUserName());
     }
@@ -146,6 +139,4 @@ public class DBConfig {
       chooseDMS.setValue(jdbcConfig.getDriver());
     }
   }
-
-
 }

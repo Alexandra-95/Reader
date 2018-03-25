@@ -12,14 +12,7 @@ public class TableExistsInformation {
   private ChoiceBox chooseWhatToDo;
 
   @FXML
-  private Label statusExtraInfo;
-
-  @FXML
   private void okExtraInf() {
-    if (chooseWhatToDo.getValue() == null) {
-      statusExtraInfo.setText("Выберите нужное действие.");
-      statusExtraInfo.setTextFill(Color.RED);
-    } else {
       InitProgram.jdbsController.setLines(CSVController.getLines());
       InitProgram.jdbsController.setTableToRewrite(chooseWhatToDo.getValue()
                                                                  .equals(
@@ -28,7 +21,6 @@ public class TableExistsInformation {
       Stage stage = InitProgram.stageExtraInf;
       stage.close();
       InitProgram.progress.getWindow();
-    }
   }
 
   @FXML
@@ -43,5 +35,10 @@ public class TableExistsInformation {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  @FXML
+  public void initialize() {
+    chooseWhatToDo.setValue("Удалить существующие данные");
   }
 }
