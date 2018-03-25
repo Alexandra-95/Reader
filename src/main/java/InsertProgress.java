@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 
 public class InsertProgress {
 
-
   @FXML
   private Button done;
 
@@ -19,11 +18,6 @@ public class InsertProgress {
 
   @FXML
   private Label supportText = new Label();
-
-  @FXML
-  private void goInsert() {
-    initProgressBar();
-  }
 
   @FXML
   private void progressDone() {
@@ -43,7 +37,7 @@ public class InsertProgress {
   }
 
   private void initProgressBar() {
-    //supportText.setText("Идет процесс записи файла в базу данных. Пожалуйста, подождите.....");
+    done.setDisable(true);
     progressBar.progressProperty()
                .unbind();
     progressBar.progressProperty()
@@ -54,8 +48,9 @@ public class InsertProgress {
                .bind(JDBCController.jdbcService.messageProperty());
     JDBCController.jdbcService.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
         event -> {
-          Object p = JDBCController.jdbcService.getValue();
+          JDBCController.jdbcService.getValue();
           //supportText.setText("Конвертация прошла успешно.");
+          done.setDisable(false);
           supportText.setTextFill(Color.GREEN);
         });
     Thread thread = new Thread(JDBCController.jdbcService);
@@ -63,4 +58,9 @@ public class InsertProgress {
     thread.start();
   }
 
+  @FXML
+  public void initialize() {
+    supportText.setText("Идет процесс записи файла в базу данных. Пожалуйста, подождите.....");
+    initProgressBar();
+  }
 }

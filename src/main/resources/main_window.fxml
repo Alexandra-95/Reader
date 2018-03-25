@@ -21,7 +21,7 @@
       </items>
     </ChoiceBox>
     <TextField fx:id="tableName" layoutX="37.0" layoutY="287.0" />
-    <Button layoutX="383.0" layoutY="122.0" mnemonicParsing="false" onAction="#dbConfig" text="Задать настройки" />
+    <Button fx:id="clickDBConfig" layoutX="383.0" layoutY="122.0" mnemonicParsing="false" onAction="#dbConfig" text="Задать настройки" />
     <Label fx:id="chooseFileArea" layoutX="37.0" layoutY="90.0" prefHeight="25.0" prefWidth="149.0" />
     <Label layoutX="38.0" layoutY="63.0" prefHeight="17.0" prefWidth="160.0" text="Выбор CSV-файла :" />
     <Label layoutX="37.0" layoutY="158.0" prefHeight="17.0" prefWidth="149.0" text="Разделитель строк :" />
@@ -33,7 +33,7 @@
       <Label fx:id="separatorStatus" layoutX="37.0" layoutY="220.0" prefHeight="17.0" prefWidth="150.0" />
       <Label fx:id="tableNameStatus" layoutX="38.0" layoutY="319.0" prefHeight="17.0" prefWidth="233.0" />
       <Label layoutX="383.0" layoutY="205.0" prefHeight="17.0" prefWidth="160.0" text="Проверить заданный файл:" />
-      <Button layoutX="383.0" layoutY="225.0" mnemonicParsing="false" onAction="#readFile" prefHeight="25.0" prefWidth="121.0" text="Считывание файла" />
+      <Button fx:id="clickReadFile" layoutX="383.0" layoutY="225.0" mnemonicParsing="false" onAction="#readFile" prefHeight="25.0" prefWidth="121.0" text="Считывание файла" />
       <Label fx:id="readFileStatus" layoutX="374.0" layoutY="257.0" prefHeight="17.0" prefWidth="179.0" />
   </children>
 </AnchorPane>

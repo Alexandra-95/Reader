@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -38,6 +39,30 @@ public class MainWindow extends javafx.application.Application implements Initia
   @FXML
   private Label readFileStatus;
 
+  @FXML
+  private Button choose_file;
+
+  @FXML
+  private Button clickDBConfig;
+
+  @FXML
+  private Button clickReadFile;
+
+  private void disableAll() {
+    tableName.setDisable(true);
+    lineSeparator.setDisable(true);
+    choose_file.setDisable(true);
+    clickDBConfig.setDisable(true);
+    clickReadFile.setDisable(true);
+  }
+
+  private void enableAll() {
+    tableName.setDisable(false);
+    lineSeparator.setDisable(false);
+    choose_file.setDisable(false);
+    clickDBConfig.setDisable(false);
+    clickReadFile.setDisable(false);
+  }
 
   @Override
   public void start(Stage primaryStage) {
@@ -55,6 +80,7 @@ public class MainWindow extends javafx.application.Application implements Initia
 
   @FXML
   private void readFile() {
+    disableAll();
     if (chooseFileArea.getText()
                       .equals("")) {
       csvStatus.setText("Не задан файл.");
@@ -80,7 +106,7 @@ public class MainWindow extends javafx.application.Application implements Initia
         }
       }
     }
-
+    enableAll();
   }
 
   //  private void initProgressBar() {
@@ -115,6 +141,7 @@ public class MainWindow extends javafx.application.Application implements Initia
 
   @FXML
   private void startConvertation() {
+    disableAll();
     readFile();
     if (!InitProgram.jdbsController.tryToConnect(InitProgram.jdbsController.getJdbcConfig())) {
       configurationStatus.setText("Соединение не установлено.");
@@ -153,14 +180,15 @@ public class MainWindow extends javafx.application.Application implements Initia
         readFileStatus.getText()
                       .equals("Файл успешно считан")) {
       InitProgram.jdbsController.setTableName(tableName.getText());
+      InitProgram.jdbsController.setLines(CSVController.getLines());
       if (InitProgram.jdbsController.checkIfExistTable()) {
         InitProgram.tableExist.getWindow();
       } else {
-        InitProgram.jdbsController.setLines(CSVController.getLines());
         InitProgram.jdbsController.createNewTable();
         InitProgram.progress.getWindow(new Stage());
       }
     }
+    enableAll();
   }
 
   @FXML

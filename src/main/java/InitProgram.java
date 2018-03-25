@@ -17,7 +17,7 @@ public class InitProgram {
 
   public static final JDBCController jdbsController = new JDBCController();
 
-  public static Stage primaryStage = new Stage();
+  public static final Stage primaryStage = new Stage();
 
   public static final DBConfig dbConfig = new DBConfig();
 
