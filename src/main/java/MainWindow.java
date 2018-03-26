@@ -48,24 +48,6 @@ public class MainWindow extends javafx.application.Application implements Initia
   @FXML
   private Button clickReadFile;
 
-  @FXML
-  private void disableAll() {
-    tableName.setDisable(true);
-    lineSeparator.setDisable(true);
-    choose_file.setDisable(true);
-    clickDBConfig.setDisable(true);
-    clickReadFile.setDisable(true);
-  }
-
-  @FXML
-  private void enableAll() {
-    tableName.setDisable(false);
-    lineSeparator.setDisable(false);
-    choose_file.setDisable(false);
-    clickDBConfig.setDisable(false);
-    clickReadFile.setDisable(false);
-  }
-
   @Override
   public void start(Stage primaryStage) {
     getWindow();
@@ -77,6 +59,7 @@ public class MainWindow extends javafx.application.Application implements Initia
 
   @FXML
   private void dbConfig() {
+    configurationStatus.setText("");
     InitProgram.dbConfig.getWindow();
   }
 
@@ -101,7 +84,6 @@ public class MainWindow extends javafx.application.Application implements Initia
     if (count == 0) {
       InitProgram.csvController.setCSVConfig(chooseFileArea.getText(),
           (String) lineSeparator.getValue());
-      //indicatorReading.setProgress(-1D);
       CSVController.setLines(InitProgram.csvController.read());
       if (!InitProgram.csvController.getError()
                                     .equals("")) {
@@ -111,13 +93,11 @@ public class MainWindow extends javafx.application.Application implements Initia
         readFileStatus.setText("Файл успешно считан");
         readFileStatus.setTextFill(Color.GREEN);
       }
-      //indicatorReading.setProgress(0);
     }
   }
 
   @FXML
   private void startConvertation() {
-    disableAll();
     readFile();
     if (!InitProgram.jdbsController.tryToConnect(InitProgram.jdbsController.getJdbcConfig())) {
       configurationStatus.setText("Соединение не установлено.");
@@ -164,7 +144,6 @@ public class MainWindow extends javafx.application.Application implements Initia
         InitProgram.progress.getWindow();
       }
     }
-    enableAll();
   }
 
   @FXML

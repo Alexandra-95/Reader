@@ -2,8 +2,6 @@ import controller.CSVController;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class TableExistsInformation {
@@ -13,14 +11,14 @@ public class TableExistsInformation {
 
   @FXML
   private void okExtraInf() {
-      InitProgram.jdbsController.setLines(CSVController.getLines());
-      InitProgram.jdbsController.setTableToRewrite(chooseWhatToDo.getValue()
-                                                                 .equals(
-                                                                     "Удалить существующие данные"));
-      InitProgram.jdbsController.insertData();
-      Stage stage = InitProgram.stageExtraInf;
-      stage.close();
-      InitProgram.progress.getWindow();
+    InitProgram.jdbsController.setLines(CSVController.getLines());
+    InitProgram.jdbsController.setTableToRewrite(chooseWhatToDo.getValue()
+                                                               .equals(
+                                                                   "Удалить существующие данные"));
+    InitProgram.jdbsController.insertData();
+    Stage stage = InitProgram.stageExtraInf;
+    stage.close();
+    InitProgram.progress.getWindow();
   }
 
   @FXML
