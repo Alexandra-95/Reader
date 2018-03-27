@@ -38,7 +38,7 @@ public class InitProgram {
     AnchorPane rootLayout = loader.load();
     Scene dbConfig = new Scene(rootLayout);
     // Отображаем сцену, содержащую корневой макет.
-    stageExtraInf.setTitle("Нужно больше информации");
+    stageExtraInf.setTitle("Изменение данных в таблице БД");
     stageExtraInf.setScene(dbConfig);
   }
 
@@ -49,7 +49,7 @@ public class InitProgram {
     AnchorPane rootLayout = loader.load();
     Scene dbConfig = new Scene(rootLayout);
     // Отображаем сцену, содержащую корневой макет.
-    stageInsertProgress.setTitle("Прогресс записи.");
+    stageInsertProgress.setTitle("Процесс импорта данных в БД");
     stageInsertProgress.setScene(dbConfig);
   }
 
@@ -60,7 +60,7 @@ public class InitProgram {
     AnchorPane rootLayout = loader.load();
     Scene dbConfig = new Scene(rootLayout);
     // Отображаем сцену, содержащую корневой макет.
-    InitProgram.stageDBConfig.setTitle("db config");
+    InitProgram.stageDBConfig.setTitle("Настройка соединения с БД");
     InitProgram.stageDBConfig.setScene(dbConfig);
   }
 
@@ -76,7 +76,7 @@ public class InitProgram {
     }
     // Отображаем сцену, содержащую корневой макет.
     Scene mainWindow = new Scene(Objects.requireNonNull(rootLayout));
-    primaryStage.setTitle("main page");
+    primaryStage.setTitle("Импорт CSV в БД");
     primaryStage.setScene(mainWindow);
     /////////////////////////
     stageExtraInf.initModality(Modality.APPLICATION_MODAL);
