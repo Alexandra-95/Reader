@@ -5,7 +5,7 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="161.0" prefWidth="525.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InsertProgress">
+<AnchorPane prefHeight="161.0" prefWidth="525.0" stylesheets="@modena_dark.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InsertProgress">
    <children>
       <Button fx:id="done" layoutX="188.0" layoutY="122.0" mnemonicParsing="false" onAction="#progressDone" prefHeight="25.0" prefWidth="151.0" text="OK" />
       <Label fx:id="supportText" layoutX="28.0" layoutY="38.0" prefHeight="17.0" prefWidth="403.0" text="Идет процесс записи файла в базу данных. Пожалуйста, подождите....." />
