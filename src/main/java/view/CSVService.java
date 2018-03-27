@@ -26,12 +26,6 @@ public class CSVService extends Task<List<String[]>> {
 
   public static long numberStrError;
 
-  public void setCSVConfig(String path, String lineSeparator, String tableName) {
-    csvConfig.setPath(path);
-    csvConfig.setLineSeparator(lineSeparator);
-    csvConfig.setTableName(tableName);
-  }
-
   public void setCSVConfig(String path, String lineSeparator) {
     csvConfig.setPath(path);
     csvConfig.setLineSeparator(lineSeparator);

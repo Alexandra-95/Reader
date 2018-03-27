@@ -48,23 +48,23 @@ public class MainWindow extends javafx.application.Application implements Initia
   @FXML
   private Button clickReadFile;
 
-  @FXML
-  private void disableAll() {
-    tableName.setDisable(true);
-    lineSeparator.setDisable(true);
-    choose_file.setDisable(true);
-    clickDBConfig.setDisable(true);
-    clickReadFile.setDisable(true);
-  }
-
-  @FXML
-  private void enableAll() {
-    tableName.setDisable(false);
-    lineSeparator.setDisable(false);
-    choose_file.setDisable(false);
-    clickDBConfig.setDisable(false);
-    clickReadFile.setDisable(false);
-  }
+//  @FXML
+//  private void disableAll() {
+//    tableName.setDisable(true);
+//    lineSeparator.setDisable(true);
+//    choose_file.setDisable(true);
+//    clickDBConfig.setDisable(true);
+//    clickReadFile.setDisable(true);
+//  }
+//
+//  @FXML
+//  private void enableAll() {
+//    tableName.setDisable(false);
+//    lineSeparator.setDisable(false);
+//    choose_file.setDisable(false);
+//    clickDBConfig.setDisable(false);
+//    clickReadFile.setDisable(false);
+//  }
 
   @Override
   public void start(Stage primaryStage) {
@@ -82,26 +82,9 @@ public class MainWindow extends javafx.application.Application implements Initia
 
   @FXML
   private void readFile() {
-    int count = 0;
-    if (lineSeparator.getValue() == null) {
-      separatorStatus.setText("Разделители не заданы.");
-      separatorStatus.setTextFill(Color.RED);
-      count++;
-    } else {
-      separatorStatus.setText("");
-    }
-    if (chooseFileArea.getText()
-                      .equals("")) {
-      csvStatus.setText("Не задан файл.");
-      csvStatus.setTextFill(Color.RED);
-      count++;
-    } else {
-      csvStatus.setText("");
-    }
-    if (count == 0) {
+    if (getCountToCheckPossibilityReadFile() == 0) {
       InitProgram.csvController.setCSVConfig(chooseFileArea.getText(),
           (String) lineSeparator.getValue());
-      //indicatorReading.setProgress(-1D);
       CSVController.setLines(InitProgram.csvController.read());
       if (!InitProgram.csvController.getError()
                                     .equals("")) {
@@ -111,48 +94,13 @@ public class MainWindow extends javafx.application.Application implements Initia
         readFileStatus.setText("Файл успешно считан");
         readFileStatus.setTextFill(Color.GREEN);
       }
-      //indicatorReading.setProgress(0);
     }
   }
 
   @FXML
   private void startConvertation() {
-    disableAll();
     readFile();
-    if (!InitProgram.jdbsController.tryToConnect(InitProgram.jdbsController.getJdbcConfig())) {
-      configurationStatus.setText("Соединение не установлено.");
-      configurationStatus.setTextFill(Color.RED);
-    } else {
-      configurationStatus.setText("");
-    }
-    if (tableName.getText()
-                 .equals("")) {
-      tableNameStatus.setText("Название таблицы не задано.");
-      tableNameStatus.setTextFill(Color.RED);
-    } else {
-      tableNameStatus.setText("");
-    }
-    if (chooseFileArea.getText()
-                      .equals("")) {
-      csvStatus.setText("Не задан файл.");
-      csvStatus.setTextFill(Color.RED);
-    } else {
-      csvStatus.setText("");
-    }
-    if (lineSeparator.getValue() == null) {
-      separatorStatus.setText("Разделители не заданы.");
-      separatorStatus.setTextFill(Color.RED);
-    } else {
-      separatorStatus.setText("");
-    }
-    if (configurationStatus.getText()
-                           .equals("") &&
-        tableNameStatus.getText()
-                       .equals("") &&
-        csvStatus.getText()
-                 .equals("") &&
-        separatorStatus.getText()
-                       .equals("") &&
+    if (aCheckThatFieldsReadyToConvertation() == 0 &&
         readFileStatus.getText()
                       .equals("Файл успешно считан")) {
       InitProgram.jdbsController.setTableName(tableName.getText());
@@ -164,7 +112,6 @@ public class MainWindow extends javafx.application.Application implements Initia
         InitProgram.progress.getWindow();
       }
     }
-    enableAll();
   }
 
   @FXML
@@ -184,4 +131,46 @@ public class MainWindow extends javafx.application.Application implements Initia
   public void initialize(URL location, ResourceBundle resources) {
 
   }
+
+  private int getCountToCheckPossibilityReadFile() {
+    int count = 0;
+    if (lineSeparator.getValue() == null) {
+      separatorStatus.setText("Разделители не заданы.");
+      separatorStatus.setTextFill(Color.RED);
+      count++;
+    } else {
+      separatorStatus.setText("");
+    }
+    if (chooseFileArea.getText()
+                      .equals("")) {
+      csvStatus.setText("Не задан файл.");
+      csvStatus.setTextFill(Color.RED);
+      count++;
+    } else {
+      csvStatus.setText("");
+    }
+    return count;
+  }
+
+  private int aCheckThatFieldsReadyToConvertation() {
+    int count = 0;
+    if (!InitProgram.jdbsController.tryToConnect(InitProgram.jdbsController.getJdbcConfig())) {
+      configurationStatus.setText("Соединение не установлено.");
+      configurationStatus.setTextFill(Color.RED);
+      count++;
+    } else {
+      configurationStatus.setText("");
+    }
+    if (tableName.getText()
+                 .equals("")) {
+      tableNameStatus.setText("Название таблицы не задано.");
+      tableNameStatus.setTextFill(Color.RED);
+      count++;
+    } else {
+      tableNameStatus.setText("");
+    }
+    count = count + getCountToCheckPossibilityReadFile();
+    return count;
+  }
+
 }
