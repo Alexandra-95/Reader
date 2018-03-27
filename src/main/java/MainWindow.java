@@ -52,29 +52,6 @@ public class MainWindow extends javafx.application.Application implements Initia
   @FXML
   private Button start_button;
 
-
-  private void disableReadFile() {
-    Platform.runLater(() -> {
-      start_button.setDisable(true);
-      clickReadFile.setDisable(true);
-      choose_file.setDisable(true);
-      lineSeparator.setDisable(true);
-      tableName.setDisable(true);
-      clickDBConfig.setDisable(true);
-    });
-  }
-
-  private void enableReadFile() {
-    Platform.runLater(() -> {
-      start_button.setDisable(false);
-      clickReadFile.setDisable(false);
-      choose_file.setDisable(false);
-      lineSeparator.setDisable(false);
-      tableName.setDisable(false);
-      clickDBConfig.setDisable(false);
-    });
-  }
-
   @Override
   public void start(Stage primaryStage) {
     getWindow();
@@ -94,7 +71,6 @@ public class MainWindow extends javafx.application.Application implements Initia
   private void readFile() {
     Thread thisT = new Thread(() -> {
       if (getCountToCheckPossibilityReadFile()) {
-        disableReadFile();
         InitProgram.csvController.setCSVConfig(pathToFile.getText(),
             (String) lineSeparator.getValue());
         CSVController.setLines(InitProgram.csvController.read());
@@ -110,7 +86,6 @@ public class MainWindow extends javafx.application.Application implements Initia
             readFileStatus.setTextFill(Color.GREEN);
           });
         }
-        enableReadFile();
       }
     });
     thisT.start();
