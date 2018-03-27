@@ -65,7 +65,6 @@ public class MainWindow extends javafx.application.Application implements Initia
   //    clickDBConfig.setDisable(false);
   //    clickReadFile.setDisable(false);
   //  }
-
   @Override
   public void start(Stage primaryStage) {
     getWindow();
@@ -77,6 +76,7 @@ public class MainWindow extends javafx.application.Application implements Initia
 
   @FXML
   private void dbConfig() {
+    configurationStatus.setText("");
     InitProgram.dbConfig.getWindow();
   }
 

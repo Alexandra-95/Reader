@@ -28,6 +28,7 @@ public class InsertProgress {
   }
 
   public void getWindow() {
+
     try {
       InitProgram.initWindowInsertProgress();
       InitProgram.stageInsertProgress.show();
