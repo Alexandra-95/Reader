@@ -48,6 +48,23 @@ public class MainWindow extends javafx.application.Application implements Initia
   @FXML
   private Button clickReadFile;
 
+  //  @FXML
+  //  private void disableAll() {
+  //    tableName.setDisable(true);
+  //    lineSeparator.setDisable(true);
+  //    choose_file.setDisable(true);
+  //    clickDBConfig.setDisable(true);
+  //    clickReadFile.setDisable(true);
+  //  }
+  //
+  //  @FXML
+  //  private void enableAll() {
+  //    tableName.setDisable(false);
+  //    lineSeparator.setDisable(false);
+  //    choose_file.setDisable(false);
+  //    clickDBConfig.setDisable(false);
+  //    clickReadFile.setDisable(false);
+  //  }
   @Override
   public void start(Stage primaryStage) {
     getWindow();
@@ -65,23 +82,7 @@ public class MainWindow extends javafx.application.Application implements Initia
 
   @FXML
   private void readFile() {
-    int count = 0;
-    if (lineSeparator.getValue() == null) {
-      separatorStatus.setText("Разделители не заданы.");
-      separatorStatus.setTextFill(Color.RED);
-      count++;
-    } else {
-      separatorStatus.setText("");
-    }
-    if (chooseFileArea.getText()
-                      .equals("")) {
-      csvStatus.setText("Не задан файл.");
-      csvStatus.setTextFill(Color.RED);
-      count++;
-    } else {
-      csvStatus.setText("");
-    }
-    if (count == 0) {
+    if (getCountToCheckPossibilityReadFile()) {
       InitProgram.csvController.setCSVConfig(chooseFileArea.getText(),
           (String) lineSeparator.getValue());
       CSVController.setLines(InitProgram.csvController.read());
@@ -99,40 +100,7 @@ public class MainWindow extends javafx.application.Application implements Initia
   @FXML
   private void startConvertation() {
     readFile();
-    if (!InitProgram.jdbsController.tryToConnect(InitProgram.jdbsController.getJdbcConfig())) {
-      configurationStatus.setText("Соединение не установлено.");
-      configurationStatus.setTextFill(Color.RED);
-    } else {
-      configurationStatus.setText("");
-    }
-    if (tableName.getText()
-                 .equals("")) {
-      tableNameStatus.setText("Название таблицы не задано.");
-      tableNameStatus.setTextFill(Color.RED);
-    } else {
-      tableNameStatus.setText("");
-    }
-    if (chooseFileArea.getText()
-                      .equals("")) {
-      csvStatus.setText("Не задан файл.");
-      csvStatus.setTextFill(Color.RED);
-    } else {
-      csvStatus.setText("");
-    }
-    if (lineSeparator.getValue() == null) {
-      separatorStatus.setText("Разделители не заданы.");
-      separatorStatus.setTextFill(Color.RED);
-    } else {
-      separatorStatus.setText("");
-    }
-    if (configurationStatus.getText()
-                           .equals("") &&
-        tableNameStatus.getText()
-                       .equals("") &&
-        csvStatus.getText()
-                 .equals("") &&
-        separatorStatus.getText()
-                       .equals("") &&
+    if (aCheckThatFieldsReadyToConvertation() &&
         readFileStatus.getText()
                       .equals("Файл успешно считан")) {
       InitProgram.jdbsController.setTableName(tableName.getText());
@@ -163,4 +131,45 @@ public class MainWindow extends javafx.application.Application implements Initia
   public void initialize(URL location, ResourceBundle resources) {
 
   }
+
+  private boolean getCountToCheckPossibilityReadFile() {
+    int count = 0;
+    if (lineSeparator.getValue() == null) {
+      separatorStatus.setText("Разделители не заданы.");
+      separatorStatus.setTextFill(Color.RED);
+      count++;
+    } else {
+      separatorStatus.setText("");
+    }
+    if (chooseFileArea.getText()
+                      .equals("")) {
+      csvStatus.setText("Не задан файл.");
+      csvStatus.setTextFill(Color.RED);
+      count++;
+    } else {
+      csvStatus.setText("");
+    }
+    return count == 0;
+  }
+
+  private boolean aCheckThatFieldsReadyToConvertation() {
+    int count = 0;
+    if (!InitProgram.jdbsController.tryToConnect(InitProgram.jdbsController.getJdbcConfig())) {
+      configurationStatus.setText("Соединение не установлено.");
+      configurationStatus.setTextFill(Color.RED);
+      count++;
+    } else {
+      configurationStatus.setText("");
+    }
+    if (tableName.getText()
+                 .equals("")) {
+      tableNameStatus.setText("Название таблицы не задано.");
+      tableNameStatus.setTextFill(Color.RED);
+      count++;
+    } else {
+      tableNameStatus.setText("");
+    }
+    return count == 0 && getCountToCheckPossibilityReadFile();
+  }
+
 }

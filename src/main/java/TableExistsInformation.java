@@ -13,8 +13,7 @@ public class TableExistsInformation {
   private void okExtraInf() {
     InitProgram.jdbsController.setLines(CSVController.getLines());
     InitProgram.jdbsController.setTableToRewrite(chooseWhatToDo.getValue()
-                                                               .equals(
-                                                                   "Удалить существующие данные"));
+                                                               .equals("Удалить существующие данные"));
     InitProgram.jdbsController.insertData();
     Stage stage = InitProgram.stageExtraInf;
     stage.close();
