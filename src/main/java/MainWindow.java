@@ -69,7 +69,7 @@ public class MainWindow extends javafx.application.Application implements Initia
 
   @FXML
   private void readFile() {
-    Thread thisT = new Thread(() -> {
+    Thread thisThread = new Thread(() -> {
       if (getCountToCheckPossibilityReadFile()) {
         InitProgram.csvController.setCSVConfig(pathToFile.getText(),
             (String) lineSeparator.getValue());
@@ -88,9 +88,9 @@ public class MainWindow extends javafx.application.Application implements Initia
         }
       }
     });
-    thisT.start();
+    thisThread.start();
     try {
-      thisT.join();
+      thisThread.join();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }

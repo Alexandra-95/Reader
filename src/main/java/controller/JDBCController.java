@@ -21,6 +21,10 @@ public class JDBCController {
     jdbcService.setLines(lines);
   }
 
+  public List<String[]> getLines() {
+    return jdbcService.getLines();
+  }
+
   public void setTableName(String tableName) {
     jdbcService.setTableName(tableName);
   }

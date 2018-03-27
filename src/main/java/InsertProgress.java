@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class InsertProgress {
@@ -18,6 +17,9 @@ public class InsertProgress {
 
   @FXML
   private Label supportText = new Label();
+
+  @FXML
+  private Label changedProgress;
 
   @FXML
   private void progressDone() {
@@ -43,16 +45,15 @@ public class InsertProgress {
                .unbind();
     progressBar.progressProperty()
                .bind(JDBCController.jdbcService.progressProperty());
-    supportText.textProperty()
-               .unbind();
-    supportText.textProperty()
-               .bind(JDBCController.jdbcService.messageProperty());
+    changedProgress.textProperty()
+                   .unbind();
+    changedProgress.textProperty()
+                   .bind(JDBCController.jdbcService.messageProperty());
     JDBCController.jdbcService.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED,
         event -> {
           JDBCController.jdbcService.getValue();
-          //supportText.setText("Конвертация прошла успешно.");
+          supportText.setText("Запись прошла успешно.");
           done.setDisable(false);
-          supportText.setTextFill(Color.GREEN);
         });
     Thread thread = new Thread(JDBCController.jdbcService);
     thread.setDaemon(true);

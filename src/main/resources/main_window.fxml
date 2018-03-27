@@ -36,12 +36,12 @@
                         <DropShadow />
                      </effect>
                   </Button>
-                <ChoiceBox fx:id="lineSeparator" layoutX="266.0" layoutY="96.0" prefWidth="150.0">
+                <ChoiceBox fx:id="lineSeparator" layoutX="266.0" layoutY="96.0" prefWidth="150.0" value=";">
                   <items>
                     <FXCollections fx:factory="observableArrayList">
                       <String fx:value=";" />
                       <String fx:value="," />
-                      <String fx:value="_" />
+                      <String fx:value=":" />
                     </FXCollections>
                   </items>
                 </ChoiceBox>

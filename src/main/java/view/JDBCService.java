@@ -17,6 +17,10 @@ public class JDBCService extends Task {
   private boolean tableToRewrite;
   private String setTypeData;
 
+  public List<String[]> getLines() {
+    return lines;
+  }
+
   public void setJDBCConfig(String driver, String url, String userName, String password) {
     jdbcConfig.setUserName(userName);
     jdbcConfig.setPassword(password);
@@ -80,6 +84,7 @@ public class JDBCService extends Task {
             "'" + line[i] + "'" + ", ");
       }
       this.updateProgress(counter, size);
+      this.updateMessage(String.valueOf((int) ((counter / size) * 100)));
       counter++;
       queryRunner(sql.toString());
     }
