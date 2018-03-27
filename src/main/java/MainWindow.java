@@ -48,23 +48,23 @@ public class MainWindow extends javafx.application.Application implements Initia
   @FXML
   private Button clickReadFile;
 
-//  @FXML
-//  private void disableAll() {
-//    tableName.setDisable(true);
-//    lineSeparator.setDisable(true);
-//    choose_file.setDisable(true);
-//    clickDBConfig.setDisable(true);
-//    clickReadFile.setDisable(true);
-//  }
-//
-//  @FXML
-//  private void enableAll() {
-//    tableName.setDisable(false);
-//    lineSeparator.setDisable(false);
-//    choose_file.setDisable(false);
-//    clickDBConfig.setDisable(false);
-//    clickReadFile.setDisable(false);
-//  }
+  //  @FXML
+  //  private void disableAll() {
+  //    tableName.setDisable(true);
+  //    lineSeparator.setDisable(true);
+  //    choose_file.setDisable(true);
+  //    clickDBConfig.setDisable(true);
+  //    clickReadFile.setDisable(true);
+  //  }
+  //
+  //  @FXML
+  //  private void enableAll() {
+  //    tableName.setDisable(false);
+  //    lineSeparator.setDisable(false);
+  //    choose_file.setDisable(false);
+  //    clickDBConfig.setDisable(false);
+  //    clickReadFile.setDisable(false);
+  //  }
 
   @Override
   public void start(Stage primaryStage) {
@@ -82,7 +82,7 @@ public class MainWindow extends javafx.application.Application implements Initia
 
   @FXML
   private void readFile() {
-    if (getCountToCheckPossibilityReadFile() == 0) {
+    if (getCountToCheckPossibilityReadFile()) {
       InitProgram.csvController.setCSVConfig(chooseFileArea.getText(),
           (String) lineSeparator.getValue());
       CSVController.setLines(InitProgram.csvController.read());
@@ -100,7 +100,7 @@ public class MainWindow extends javafx.application.Application implements Initia
   @FXML
   private void startConvertation() {
     readFile();
-    if (aCheckThatFieldsReadyToConvertation() == 0 &&
+    if (aCheckThatFieldsReadyToConvertation() &&
         readFileStatus.getText()
                       .equals("Файл успешно считан")) {
       InitProgram.jdbsController.setTableName(tableName.getText());
@@ -132,7 +132,7 @@ public class MainWindow extends javafx.application.Application implements Initia
 
   }
 
-  private int getCountToCheckPossibilityReadFile() {
+  private boolean getCountToCheckPossibilityReadFile() {
     int count = 0;
     if (lineSeparator.getValue() == null) {
       separatorStatus.setText("Разделители не заданы.");
@@ -149,10 +149,10 @@ public class MainWindow extends javafx.application.Application implements Initia
     } else {
       csvStatus.setText("");
     }
-    return count;
+    return count == 0;
   }
 
-  private int aCheckThatFieldsReadyToConvertation() {
+  private boolean aCheckThatFieldsReadyToConvertation() {
     int count = 0;
     if (!InitProgram.jdbsController.tryToConnect(InitProgram.jdbsController.getJdbcConfig())) {
       configurationStatus.setText("Соединение не установлено.");
@@ -169,8 +169,7 @@ public class MainWindow extends javafx.application.Application implements Initia
     } else {
       tableNameStatus.setText("");
     }
-    count = count + getCountToCheckPossibilityReadFile();
-    return count;
+    return count == 0 && getCountToCheckPossibilityReadFile();
   }
 
 }
