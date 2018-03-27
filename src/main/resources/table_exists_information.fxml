@@ -12,7 +12,7 @@
     <Label layoutX="13.0" layoutY="23.0" prefHeight="17.0" prefWidth="493.0" stylesheets="@modena_dark.css" text="Требуется дополнительная информация. Заданная таблица существует. Выберите что" />
     <Label layoutX="13.0" layoutY="40.0" prefHeight="17.0" prefWidth="152.0" text="сделать с данными:" />
     <Button layoutX="89.0" layoutY="124.0" mnemonicParsing="false" onAction="#okExtraInf" prefHeight="25.0" prefWidth="125.0" text="ОК" />
-    <Button layoutX="285.0" layoutY="124.0" mnemonicParsing="false" onAction="#cancelExtraInf" prefHeight="25.0" prefWidth="144.0" text="Отмена" />
+    <Button fx:id="cancel" layoutX="285.0" layoutY="124.0" mnemonicParsing="false" onAction="#cancelExtraInf" prefHeight="25.0" prefWidth="144.0" text="Отмена" />
     <ChoiceBox fx:id="chooseWhatToDo" layoutX="104.0" layoutY="76.0" prefHeight="25.0" prefWidth="270.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
