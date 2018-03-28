@@ -1,5 +1,7 @@
 import controller.JDBCController;
 import java.io.IOException;
+
+import javafx.application.Platform;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -62,6 +64,10 @@ public class InsertProgress {
 
   @FXML
   public void initialize() {
+    Platform.runLater(()-> {
+      progressBar.setProgress(0);
+      changedProgress.setText(String.valueOf(0));
+    });
     supportText.setText("Идет процесс записи файла в базу данных. Пожалуйста, подождите.....");
     initProgressBar();
   }

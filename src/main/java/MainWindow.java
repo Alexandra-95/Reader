@@ -26,7 +26,7 @@ public class MainWindow extends javafx.application.Application implements Initia
   private TextField tableName;
 
   @FXML
-  private Label configurationStatus;
+  public Label configurationStatus;
 
   @FXML
   private Label csvStatus;
@@ -69,31 +69,27 @@ public class MainWindow extends javafx.application.Application implements Initia
 
   @FXML
   private void readFile() {
-    Thread thisThread = new Thread(() -> {
       if (getCountToCheckPossibilityReadFile()) {
         InitProgram.csvController.setCSVConfig(pathToFile.getText(),
             (String) lineSeparator.getValue());
         CSVController.setLines(InitProgram.csvController.read());
         if (!InitProgram.csvController.getError()
                                       .equals("")) {
-          Platform.runLater(() -> {
             readFileStatus.setText(InitProgram.csvController.getError());
             readFileStatus.setTextFill(Color.RED);
-          });
         } else {
-          Platform.runLater(() -> {
             readFileStatus.setText("Файл успешно считан");
             readFileStatus.setTextFill(Color.GREEN);
-          });
         }
       }
-    });
-    thisThread.start();
-    try {
-      thisThread.join();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+//    });
+//    thisThread.start();
+//    try {
+//      thisThread.join();
+//      Thread.sleep(1000);
+//    } catch (InterruptedException e) {
+//      e.printStackTrace();
+//    }
   }
 
   @FXML
@@ -105,14 +101,12 @@ public class MainWindow extends javafx.application.Application implements Initia
                       .equals("Файл успешно считан")) {
       InitProgram.jdbsController.setTableName(tableName.getText());
       InitProgram.jdbsController.setLines(CSVController.getLines());
-      Platform.runLater(() -> {
         if (InitProgram.jdbsController.checkIfExistTable()) {
           InitProgram.tableExist.getWindow();
         } else {
           InitProgram.jdbsController.createNewTable();
           InitProgram.progress.getWindow();
         }
-      });
     }
   }
 
@@ -137,23 +131,19 @@ public class MainWindow extends javafx.application.Application implements Initia
   private boolean getCountToCheckPossibilityReadFile() {
     int count = 0;
     if (lineSeparator.getValue() == null) {
-      Platform.runLater(() -> {
         separatorStatus.setText("Разделители не заданы.");
         separatorStatus.setTextFill(Color.RED);
-      });
       count++;
     } else {
-      Platform.runLater(() -> separatorStatus.setText(""));
+      separatorStatus.setText("");
     }
     if (pathToFile.getText()
                   .equals("")) {
-      Platform.runLater(() -> {
         csvStatus.setText("Не задан файл.");
         csvStatus.setTextFill(Color.RED);
-      });
       count++;
     } else {
-      Platform.runLater(() -> csvStatus.setText(""));
+      csvStatus.setText("");
     }
     return count == 0;
   }
@@ -161,23 +151,19 @@ public class MainWindow extends javafx.application.Application implements Initia
   private boolean aCheckThatFieldsReadyToConvertation() {
     int count = 0;
     if (!InitProgram.jdbsController.tryToConnect(InitProgram.jdbsController.getJdbcConfig())) {
-      Platform.runLater(() -> {
         configurationStatus.setText("Соединение не установлено.");
         configurationStatus.setTextFill(Color.RED);
-      });
       count++;
     } else {
-      Platform.runLater(() -> configurationStatus.setText(""));
+      configurationStatus.setText("");
     }
     if (tableName.getText()
                  .equals("")) {
-      Platform.runLater(() -> {
         tableNameStatus.setText("Название таблицы не задано.");
         tableNameStatus.setTextFill(Color.RED);
-      });
       count++;
     } else {
-      Platform.runLater(() -> tableNameStatus.setText(""));
+      tableNameStatus.setText("");
     }
     return count == 0 && getCountToCheckPossibilityReadFile();
   }
