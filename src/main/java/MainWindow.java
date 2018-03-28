@@ -16,7 +16,10 @@ import javafx.stage.Stage;
 public class MainWindow extends javafx.application.Application implements Initializable {
 
   @FXML
-  private Label chooseFileArea;
+  private Label pathTextLabel;
+
+  @FXML
+  private Label pathToFile;
 
   @FXML
   private ChoiceBox lineSeparator;
@@ -90,7 +93,7 @@ public class MainWindow extends javafx.application.Application implements Initia
     } else {
       separatorStatus.setText("");
     }
-    if (chooseFileArea.getText()
+    if (pathToFile.getText()
                       .equals("")) {
       csvStatus.setText("Не задан файл.");
       csvStatus.setTextFill(Color.RED);
@@ -99,7 +102,7 @@ public class MainWindow extends javafx.application.Application implements Initia
       csvStatus.setText("");
     }
     if (count == 0) {
-      InitProgram.csvController.setCSVConfig(chooseFileArea.getText(),
+      InitProgram.csvController.setCSVConfig(pathToFile.getText(),
           (String) lineSeparator.getValue());
       //indicatorReading.setProgress(-1D);
       CSVController.setLines(InitProgram.csvController.read());
@@ -132,7 +135,7 @@ public class MainWindow extends javafx.application.Application implements Initia
     } else {
       tableNameStatus.setText("");
     }
-    if (chooseFileArea.getText()
+    if (pathToFile.getText()
                       .equals("")) {
       csvStatus.setText("Не задан файл.");
       csvStatus.setTextFill(Color.RED);
@@ -176,7 +179,8 @@ public class MainWindow extends javafx.application.Application implements Initia
     fileChooser.setTitle("Open Resource File");
     File selectedFile = fileChooser.showOpenDialog(InitProgram.primaryStage);
     if (selectedFile != null) {
-      chooseFileArea.setText(selectedFile.getAbsolutePath());
+      pathTextLabel.setDisable(false);
+      pathToFile.setText(selectedFile.getAbsolutePath());
     }
   }
 

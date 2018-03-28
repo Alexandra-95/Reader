@@ -30,6 +30,9 @@ public class DBConfig {
   @FXML
   private Label resultConnection;
 
+  /*@FXML
+  private Label configurationStatus;*/
+
   @FXML
   private Label enterUserName;
 
@@ -43,21 +46,21 @@ public class DBConfig {
   private boolean checker() {
     if (userName.getText()
                 .equals("")) {
-      enterUserName.setText("Введите");
+      enterUserName.setText("*");
       enterUserName.setTextFill(Color.RED);
     } else {
       enterUserName.setText("");
     }
     if (password.getText()
                 .equals("")) {
-      enterPassword.setText("Введите");
+      enterPassword.setText("*");
       enterPassword.setTextFill(Color.RED);
     } else {
       enterPassword.setText("");
     }
     if (urlDB.getText()
              .equals("")) {
-      enterUrl.setText("Введите");
+      enterUrl.setText("*");
       enterUrl.setTextFill(Color.RED);
     } else {
       enterUrl.setText("");
@@ -83,6 +86,8 @@ public class DBConfig {
       if (InitProgram.jdbsController.tryToConnect(jdbcConfig)) {
         resultConnection.setText("Соединение установлено.");
         resultConnection.setTextFill(Color.GREEN);
+        //configurationStatus.setText("Соединение установлено.");
+        //configurationStatus.setTextFill(Color.GREEN);
       } else {
         resultConnection.setText("Соединение не установлено.");
         resultConnection.setTextFill(Color.RED);

@@ -60,7 +60,7 @@ public class InsertProgress {
 
   @FXML
   public void initialize() {
-    supportText.setText("Идет процесс записи файла в базу данных. Пожалуйста, подождите.....");
+    //supportText.setText("Идет процесс записи файла в базу данных. Пожалуйста, подождите.....");
     initProgressBar();
   }
 }
