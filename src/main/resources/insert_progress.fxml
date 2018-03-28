@@ -11,6 +11,6 @@
       <Label fx:id="supportText" layoutX="28.0" layoutY="38.0" prefHeight="17.0" prefWidth="403.0" text="Идет процесс записи файла в базу данных. Пожалуйста, подождите....." />
       <ProgressBar fx:id="progressBar" cache="true" layoutX="24.0" layoutY="72.0" prefHeight="35.0" prefWidth="483.0" progress="0.0" />
       <Label fx:id="changedProgress" layoutX="248.0" layoutY="81.0" prefHeight="17.0" prefWidth="46.0" />
-      <Label layoutX="284.0" layoutY="81.0" text="\%" />
+      <Label layoutX="271.0" layoutY="81.0" text="\%" />
    </children>
 </AnchorPane>

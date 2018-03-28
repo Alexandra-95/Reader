@@ -82,14 +82,6 @@ public class MainWindow extends javafx.application.Application implements Initia
             readFileStatus.setTextFill(Color.GREEN);
         }
       }
-//    });
-//    thisThread.start();
-//    try {
-//      thisThread.join();
-//      Thread.sleep(1000);
-//    } catch (InterruptedException e) {
-//      e.printStackTrace();
-//    }
   }
 
   @FXML
